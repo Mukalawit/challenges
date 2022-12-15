@@ -30,17 +30,17 @@ function restoreUserTrip(tickets) {
   }
 }
 
-function doIteration(tickets , source){
+function doIteration(tickets , trip){
     for (let ticket of tickets) {
-        if (source[source.length - 1] === ticket['source']) {
-          source.push(ticket['destination']);
-          if(tickets.length !== (source.length-1)){
-            doIteration(tickets , source);
+        if (trip[trip.length - 1] === ticket['source']) {
+          trip.push(ticket['destination']);
+          if(tickets.length !== (trip.length-1)){
+            doIteration(tickets , trip);
           }
         }
       }
 
-    return source;
+    return trip;
 }
 
 function removeDuplicates(arr) {
@@ -49,10 +49,10 @@ function removeDuplicates(arr) {
 }
 
 const tickets = [
-    { source: 'D', destination: 'K' },
-  { source: 'A', destination: 'B' },
+  { source: 'D', destination: 'K' },
   { source: 'B', destination: 'C' },
   { source: 'C', destination: 'D' },
+  { source: 'A', destination: 'B' }
   
 ];
 
