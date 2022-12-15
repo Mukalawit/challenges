@@ -34,7 +34,7 @@ function doIteration(tickets , source){
     for (let ticket of tickets) {
         if (source[source.length - 1] === ticket['source']) {
           source.push(ticket['destination']);
-          if(ticket.length !== (source.length-1)){
+          if(tickets.length !== (source.length-1)){
             doIteration(tickets , source);
           }
         }
@@ -49,10 +49,11 @@ function removeDuplicates(arr) {
 }
 
 const tickets = [
+    { source: 'D', destination: 'K' },
   { source: 'A', destination: 'B' },
   { source: 'B', destination: 'C' },
   { source: 'C', destination: 'D' },
-  { source: 'D', destination: 'K' },
+  
 ];
 
 restoreUserTrip(tickets);
