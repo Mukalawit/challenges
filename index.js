@@ -1,20 +1,47 @@
-function generateTicketCSV(tickets){
-let ticketsCSV = [];
-if(!tickets.length) return console.log(`tickets should be an array of the format tickets:[{source: 'source', destination:'destination'}]`);
+const assert = require('assert')
 
+function generateTicketCSV(tickets){
+let source = [];
+let fail = 0;
 for(let ticket of tickets){
 
-    if(ticket.hasOwnProperty('source') && ticket.hasOwnProperty('destination')){
-       ticketsCSV.push(ticket['source'] , ticket['destination']);
+    //identify the source
+    //iterate the array of tickets to check if source exists anywhere as destination
+    for(let check of tickets){
+        
+        if(ticket['source'] === check['destination']){
+            fail++;
+        }
     }
-    else{
-        return console.log(`All tickets should be an object of the format {source: 'source', destination:'destination'}`);
+    if(!fail){
+        source.push(ticket['source']);
     }
+   
+fail=0;
 }
-return console.log(`'${ticketsCSV.join(',')}'`);
+
+if(source.length === 1){
+   //find the next destination after the source
+    for(let ticket of tickets){
+        if(source[source.length-1] === ticket['source']){
+            source.push(ticket['destination']);
+        }
+    }
+    console.log(source);
+
+}else if(source.length > 1){
+    console.log('Missing tickets');
+}else{
+    console.log('Starting point is not defined');
 }
-const tickets =[
-    {source:'source1',destination:'destination1'},
-    {source:'source2',destination: 'destination2'}
-];
+}
+
+
+const tickets = [
+    {source: 'A', destination: 'B'}, 
+    {source: 'B', destination: 'C'},
+    {source: 'C', destination: 'D'},
+    {source: 'D', destination: 'K'}
+]
+
 generateTicketCSV(tickets);
