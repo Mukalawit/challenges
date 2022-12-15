@@ -1,5 +1,3 @@
-const assert = require('assert')
-
 function generateTicketCSV(tickets){
 let source = [];
 let fail = 0;
