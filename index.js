@@ -1,4 +1,4 @@
-function generateTicketCSV(tickets) {
+function restoreUserTrip(tickets) {
   if (tickets.length) {
     let source = [];
     let fail = 0;
@@ -42,4 +42,4 @@ const tickets = [
   { source: 'D', destination: 'K' },
 ];
 
-generateTicketCSV(tickets);
+restoreUserTrip(tickets);
