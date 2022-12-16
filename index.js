@@ -18,7 +18,10 @@ function restoreUserTrip(tickets) {
     }
     source = removeDuplicates(source);
     if (source.length === 1) {
-      const trips = doIteration(tickets,source);
+      if (detectConflicts(tickets, source))
+        return console.log('Missing tickets');
+
+      const trips = doIteration(tickets, source);
       console.log(trips);
     } else if (source.length > 1) {
       console.log('Missing tickets');
@@ -30,31 +33,52 @@ function restoreUserTrip(tickets) {
   }
 }
 
-function doIteration(tickets , trip){
-    for (let ticket of tickets) {
-        if (trip[trip.length - 1] === ticket['source']) {
-          trip.push(ticket['destination']);
-          if(tickets.length !== (trip.length-1)){
-            doIteration(tickets , trip);
-          }
-        }
+function doIteration(tickets, trip) {
+  for (let ticket of tickets) {
+    if (trip[trip.length - 1] === ticket['source']) {
+      trip.push(ticket['destination']);
+      if (tickets.length !== trip.length - 1) {
+        doIteration(tickets, trip);
       }
+    }
+  }
 
-    return trip;
+  return trip;
 }
 
 function removeDuplicates(arr) {
-    return arr.filter((item, 
-        index) => arr.indexOf(item) === index);
+  return arr.filter((item, index) => arr.indexOf(item) === index);
 }
 
+function detectConflicts(tickets, arr) {
+  const conflicts = [];
+  for (let ticket of tickets) {
+    if (ticket['source'] === arr[0]) {
+      conflicts.push([ticket['source'], ticket['destination']]);
+    }
+  }
+
+  const sourceImage = conflicts[0];
+
+  //if any other conflicts array items  are not identical to the image
+  //we have a source-destination conflict
+  for (let image of conflicts) {
+    if (image[0] === sourceImage[0] && image[1] === sourceImage[1]) {
+    } else {
+      return true;
+    }
+  }
+}
 const tickets = [
-  { source: 'D', destination: 'K' },
-  { source: 'B', destination: 'C' },
-  { source: 'C', destination: 'D' },
-  { source: 'A', destination: 'B' }
-  
+  { source: 'A', destination: 'B' },
+  { source: 'A', destination: 'C' },
 ];
+// const tickets = [
+//   { source: 'D', destination: 'K' },
+//   { source: 'B', destination: 'C' },
+//   { source: 'C', destination: 'D' },
+//   { source: 'A', destination: 'B' }
+
+// ];
 
 restoreUserTrip(tickets);
-
